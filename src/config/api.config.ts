@@ -26,16 +26,8 @@ const buildUrl = (
 };
 
 export const apiEndpoints = {
-  discoverMovie: () =>
-    buildUrl("/discover/movie", {
-      include_adult: true,
-      include_video: false,
-      language: "en-US",
-      page: 1,
-      sort_by: "popularity.desc",
-    }),
-  discoverTVShows: () =>
-    buildUrl("/discover/tv", {
+  discover: (endpoing: string) =>
+    buildUrl(endpoing, {
       include_adult: true,
       include_video: false,
       language: "en-US",

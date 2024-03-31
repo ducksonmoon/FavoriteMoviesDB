@@ -9,9 +9,17 @@ export interface DiscoverMovie {
   result: Movie[];
 }
 
-const ImageScroller = () => {
+const ImageScroller = ({
+  title,
+  endpoint,
+  desc,
+}: {
+  title: string;
+  endpoint: string;
+  desc: string;
+}) => {
   const [response, isLoading, error] = useFetch<any>(
-    apiEndpoints.discoverMovie(),
+    apiEndpoints.discover(endpoint),
     defaultOptions
   );
   const [movies, setMovies] = useState([] as Movie[]);
@@ -47,10 +55,10 @@ const ImageScroller = () => {
   return (
     <>
       <Heading size="md" mt={8}>
-        Featured today
+        {title}
       </Heading>
       <Text fontSize="xs" color="gray.400" mb={3}>
-        New and Upcoming Prequels, Sequels, and Spin-Offs
+        {desc}
       </Text>
       <Box
         overflowX="auto"
