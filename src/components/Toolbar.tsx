@@ -1,12 +1,13 @@
 import React from "react";
 import { Flex, Box, IconButton } from "@chakra-ui/react";
-import {
-  AddIcon,
-  SearchIcon,
-  HamburgerIcon,
-  BellIcon,
-  SettingsIcon,
-} from "@chakra-ui/icons";
+import { SearchIcon, HamburgerIcon, SettingsIcon } from "@chakra-ui/icons";
+import { Link } from "react-router-dom";
+
+const toolbarItems = [
+  { icon: HamburgerIcon, label: "Menu", path: "" },
+  { icon: SearchIcon, label: "Search", path: "/search" },
+  { icon: SettingsIcon, label: "Settings", path: "/settings" },
+];
 
 function Toolbar() {
   return (
@@ -20,25 +21,16 @@ function Toolbar() {
       backgroundColor="black"
     >
       <Flex justifyContent="space-between" alignItems="center">
-        <IconButton
-          aria-label="Menu"
-          icon={<HamburgerIcon />}
-          size="lg"
-          variant="ghost"
-        />
-        <IconButton
-          aria-label="Search"
-          icon={<SearchIcon />}
-          size="lg"
-          variant="ghost"
-        />
-
-        <IconButton
-          aria-label="Settings"
-          icon={<SettingsIcon />}
-          size="lg"
-          variant="ghost"
-        />
+        {toolbarItems.map((item, index) => (
+          <Link key={index} to={item.path}>
+            <IconButton
+              aria-label={item.label}
+              icon={<item.icon />}
+              size="lg"
+              variant="ghost"
+            />
+          </Link>
+        ))}
       </Flex>
     </Box>
   );
