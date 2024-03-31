@@ -1,18 +1,29 @@
 import React, { useRef, useState } from "react";
 import { Box, Image, HStack, Heading, Text } from "@chakra-ui/react";
+import useFetch from "../hooks/useFetch";
+import { apiEndpoints, defaultOptions } from "../config/api.config";
+import { Movie } from "../models/movie.types";
 
-const movieCovers = [
-  "https://via.placeholder.com/200x300/0000FF/808080?Text=Movie+1",
-  "https://via.placeholder.com/200x300/008000/FFFFFF?Text=Movie+2",
-  "https://via.placeholder.com/200x300/FF0000/FFFFFF?Text=Movie+3",
-  "https://via.placeholder.com/200x300/FF0000/FFFFFF?Text=Movie+3",
-  "https://via.placeholder.com/200x300/FF0000/FFFFFF?Text=Movie+3",
-];
+export interface DiscoverMovie {
+  page: number;
+  result: Movie[];
+}
 
 const ImageScroller = () => {
+  const [response, isLoading, error] = useFetch<any>(
+    apiEndpoints.discoverMovie(),
+    defaultOptions
+  );
+  const [movies, setMovies] = useState([] as Movie[]);
   const [startX, setStartX] = useState(0);
   const [scrollStartX, setScrollStartX] = useState(0);
   const scrollerRef = useRef(null);
+
+  React.useEffect(() => {
+    if (response?.results) {
+      setMovies(response.results);
+    }
+  }, [response]);
 
   const onScrollStart = (e: React.TouchEvent<HTMLDivElement>) => {
     const touch = e.touches[0];
@@ -29,6 +40,9 @@ const ImageScroller = () => {
       scrollerRef.current.scrollLeft = scrollStartX - moveX;
     }
   };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <>
@@ -49,8 +63,13 @@ const ImageScroller = () => {
         ref={scrollerRef}
       >
         <HStack spacing="20px">
-          {movieCovers.map((cover, index) => (
-            <Image key={index} src={cover} boxSize="150px" objectFit="cover" />
+          {movies?.map((movie, index) => (
+            <Image
+              key={index}
+              src={process.env.REACT_APP_API_ENDPOINT_W500 + movie.poster_path}
+              boxSize="150px"
+              objectFit="cover"
+            />
           ))}
         </HStack>
       </Box>

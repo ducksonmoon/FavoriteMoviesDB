@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Image, Button, Flex } from "@chakra-ui/react";
+import { Box, Image, Flex } from "@chakra-ui/react";
 
 const images = [
   "https://via.placeholder.com/600x400/0000FF/808080?Text=First+Image",

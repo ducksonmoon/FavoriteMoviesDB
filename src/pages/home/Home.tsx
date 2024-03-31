@@ -7,10 +7,6 @@ function Home() {
     <>
       <PhotoSlider />
       <ImageScroller />
-      <ImageScroller />
-      <ImageScroller />
-
-      <ImageScroller />
     </>
   );
 }
