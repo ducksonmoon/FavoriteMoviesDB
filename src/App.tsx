@@ -1,16 +1,18 @@
 import React from "react";
+
 import "./App.css";
+import Toolbar from "./components/Toolbar";
+import SettingsPage from "./pages/settings/Settings";
 import Home from "./pages/home/Home";
-import HeaderToolbar from "./components/toolbar/Header";
+import { ChakraUIProvider } from "./chakra-ui/chakra-ui.provider";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <HeaderToolbar />
-      </header>
+    <ChakraUIProvider>
       <Home />
-    </div>
+      {/* <SettingsPage /> */}
+      <Toolbar />
+    </ChakraUIProvider>
   );
 }
 
