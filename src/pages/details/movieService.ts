@@ -18,3 +18,14 @@ export const fetchMovieDetails = async (
     throw error;
   }
 };
+
+export const fetchMoviesBySearch = async (query: string) => {
+  const url = apiEndpoints.searchMovies(query);
+
+  const response = await fetch(url, defaultOptions);
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  const data = await response.json();
+  return data.results;
+};

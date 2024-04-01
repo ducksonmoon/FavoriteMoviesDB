@@ -40,6 +40,7 @@ export const apiEndpoints = {
       page: 1,
     }),
   movieDetails: (movieId: number) => buildUrl(`/movie/${movieId}`),
+  searchMovies: (query: string) => buildUrl("/search/movie", { query }),
 };
 
 export { defaultOptions };

@@ -26,7 +26,6 @@ import {
   TimeIcon,
   CalendarIcon,
   AtSignIcon,
-  StarIcon,
   InfoOutlineIcon,
   ArrowBackIcon,
 } from "@chakra-ui/icons";

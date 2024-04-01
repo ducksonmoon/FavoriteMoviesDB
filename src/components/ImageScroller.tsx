@@ -3,11 +3,7 @@ import { Box, Image, HStack, Heading, Text, VStack } from "@chakra-ui/react";
 import useFetch from "../hooks/useFetch";
 import { apiEndpoints, defaultOptions } from "../config/api.config";
 import { Movietype } from "../models/movie.types";
-
-export interface DiscoverMovie {
-  page: number;
-  result: Movietype[];
-}
+import { useNavigate } from "react-router-dom";
 
 const ImageScroller = ({
   title,
@@ -18,6 +14,7 @@ const ImageScroller = ({
   endpoint: string;
   desc: string;
 }) => {
+  const navigate = useNavigate();
   const [response, isLoading, error] = useFetch<any>(
     apiEndpoints.discover(endpoint),
     defaultOptions
@@ -32,6 +29,10 @@ const ImageScroller = ({
       setMovies(response.results);
     }
   }, [response]);
+
+  const handleNavigateToDetailPage = (movieId: number) => {
+    navigate(`/movies/${movieId}`);
+  };
 
   const onScrollStart = (e: React.TouchEvent<HTMLDivElement>) => {
     const touch = e.touches[0];
@@ -72,7 +73,12 @@ const ImageScroller = ({
       >
         <HStack spacing="20px">
           {movies?.map((movie, index) => (
-            <VStack key={index} spacing="5px" align="center">
+            <VStack
+              key={index}
+              spacing="5px"
+              align="center"
+              onClick={() => handleNavigateToDetailPage(movie.id)}
+            >
               <Image
                 src={`${process.env.REACT_APP_API_ENDPOINT_W500}${movie.poster_path}`}
                 objectFit="cover"
