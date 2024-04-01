@@ -2,11 +2,11 @@ import React, { useRef, useState } from "react";
 import { Box, Image, HStack, Heading, Text, VStack } from "@chakra-ui/react";
 import useFetch from "../hooks/useFetch";
 import { apiEndpoints, defaultOptions } from "../config/api.config";
-import { Movie } from "../models/movie.types";
+import { Movietype } from "../models/movie.types";
 
 export interface DiscoverMovie {
   page: number;
-  result: Movie[];
+  result: Movietype[];
 }
 
 const ImageScroller = ({
@@ -22,7 +22,7 @@ const ImageScroller = ({
     apiEndpoints.discover(endpoint),
     defaultOptions
   );
-  const [movies, setMovies] = useState([] as Movie[]);
+  const [movies, setMovies] = useState([] as Movietype[]);
   const [startX, setStartX] = useState(0);
   const [scrollStartX, setScrollStartX] = useState(0);
   const scrollerRef = useRef(null);

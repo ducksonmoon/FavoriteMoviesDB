@@ -39,6 +39,7 @@ export const apiEndpoints = {
       language: "en-US",
       page: 1,
     }),
+  movieDetails: (movieId: number) => buildUrl(`/movie/${movieId}`),
 };
 
 export { defaultOptions };

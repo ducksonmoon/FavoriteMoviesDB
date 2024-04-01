@@ -1,8 +1,8 @@
-// src/routesConfig.tsx
 import React from "react";
 import { RouteObject } from "react-router-dom";
 import Home from "../pages/home/Home";
 import Settings from "../pages/settings/Settings";
+import Movie from "../pages/details/MovieDetails";
 
 const routesConfig: RouteObject[] = [
   {
@@ -14,6 +14,11 @@ const routesConfig: RouteObject[] = [
     path: "/settings",
     element: <Settings />,
     id: "Settings",
+  },
+  {
+    path: "/movies/:movieId",
+    element: <Movie />,
+    id: "MovieDetail",
   },
 ];
 
