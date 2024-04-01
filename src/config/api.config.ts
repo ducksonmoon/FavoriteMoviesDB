@@ -34,6 +34,11 @@ export const apiEndpoints = {
       page: 1,
       sort_by: "popularity.desc",
     }),
+  fetchList: (endpoing: string) =>
+    buildUrl(endpoing, {
+      language: "en-US",
+      page: 1,
+    }),
 };
 
 export { defaultOptions };

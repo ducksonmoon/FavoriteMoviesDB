@@ -7,13 +7,13 @@ function Home() {
   const scrollers = [
     {
       title: "Movies",
-      endpoint: API_ENDPOINTS.Movie,
-      desc: "Discover Movies by popularity",
+      endpoint: API_ENDPOINTS.DiscoverMovie,
+      desc: "Discover Movies",
     },
     {
       title: "TV Shows",
-      endpoint: API_ENDPOINTS.TV,
-      desc: "Discover TV Shows by popularity",
+      endpoint: API_ENDPOINTS.DiscoverTvShows,
+      desc: "Discover TV Shows",
     },
   ];
 

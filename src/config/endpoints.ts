@@ -1,4 +1,5 @@
 export const API_ENDPOINTS = {
-  Movie: "/discover/movie",
-  TV: "/discover/tv",
+  DiscoverMovie: "/discover/movie",
+  DiscoverTvShows: "/discover/tv",
+  PopularMovies: "/movie/popular",
 };
