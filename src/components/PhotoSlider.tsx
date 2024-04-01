@@ -1,68 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Image, Flex, Icon, Text, Heading } from "@chakra-ui/react";
 import useFetch from "../hooks/useFetch";
 import { apiEndpoints, defaultOptions } from "../config/api.config";
 import { API_ENDPOINTS } from "../config/endpoints";
-import { Movie } from "../models/movie.types";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
-function PhotoSlider() {
+const slideIntervalTime = 5000;
+
+const PhotoSlider: React.FC = () => {
+  const navigate = useNavigate();
+  const [startTouch, setStartTouch] = useState<number | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [response, isLoading, error] = useFetch<any>(
     apiEndpoints.fetchList(API_ENDPOINTS.PopularMovies),
     defaultOptions
   );
+  const movies = response?.results ?? [];
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [startTouch, setStartTouch] = useState(null);
-  const [movies, setMovies] = useState([] as Movie[]);
+  const changeSlide = useCallback(
+    (direction: "next" | "prev") => {
+      setCurrentImageIndex((prevIndex) => {
+        const newIndex =
+          direction === "next"
+            ? (prevIndex + 1) % movies?.length
+            : (prevIndex + movies?.length - 1) % movies?.length;
+        return newIndex;
+      });
+    },
+    [movies?.length]
+  );
 
-  const goToPrevious = () => {
-    const isFirstImage = currentImageIndex === 0;
-    const newIndex = isFirstImage ? movies.length - 1 : currentImageIndex - 1;
-    setCurrentImageIndex(newIndex);
-  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      changeSlide("next");
+    }, slideIntervalTime);
 
-  const goToNext = () => {
-    const isLastImage = currentImageIndex === movies.length - 1;
-    const newIndex = isLastImage ? 0 : currentImageIndex + 1;
-    setCurrentImageIndex(newIndex);
-  };
+    return () => clearInterval(interval);
+  }, [changeSlide, currentImageIndex]);
 
-  React.useMemo(() => {
-    if (response?.results) {
-      setMovies(response.results);
-    }
-  }, [response]);
-
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    const touch = e.touches[0];
-    // @ts-ignore
-    setStartTouch(touch.clientX);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!startTouch) {
-      return;
-    }
-
-    const currentTouch = e.touches[0];
-    const diff = startTouch - currentTouch.clientX;
-
-    if (diff > 50) {
-      goToNext();
-      setStartTouch(null);
-    } else if (diff < -50) {
-      goToPrevious();
-      setStartTouch(null);
-    }
-  };
-
-  const round = function (num: number) {
-    return Math.round(num * 10 + Number.EPSILON) / 10;
+  const handleNavigateToDetailPage = (movieId: number) => {
+    navigate(`/movies/${movieId}`);
   };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
+  if (!movies?.length) return <div>No movies found</div>;
+
+  const currentMovie = response.results[currentImageIndex];
 
   return (
     <Box
@@ -70,19 +55,25 @@ function PhotoSlider() {
       mx="auto"
       overflow="hidden"
       position="relative"
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
       bg="black"
+      onTouchStart={(e) => setStartTouch(e.touches[0].clientX)}
+      onTouchMove={(e) => {
+        if (!startTouch) return;
+        const touchDiff = startTouch - e.touches[0].clientX;
+        if (touchDiff > 50 || touchDiff < -50) {
+          changeSlide(touchDiff > 50 ? "next" : "prev");
+          setStartTouch(null);
+        }
+      }}
     >
       <Image
-        src={
-          process.env.REACT_APP_API_ENDPOINT_W500 +
-          movies[currentImageIndex]?.backdrop_path
-        }
-        alt={`Movie title: ${movies[currentImageIndex]?.title}`}
+        src={`${process.env.REACT_APP_API_ENDPOINT_W500}${currentMovie.backdrop_path}`}
+        alt={`Movie title: ${currentMovie.title}`}
         fit="cover"
         w="full"
         h="full"
+        onClick={() => handleNavigateToDetailPage(currentMovie.id)}
+        cursor="pointer"
       />
       <Flex
         justifyContent="space-between"
@@ -99,7 +90,8 @@ function PhotoSlider() {
           h={8}
           color="white"
           cursor="pointer"
-          onClick={goToPrevious}
+          onClick={() => changeSlide("prev")}
+          aria-label="Previous image"
         />
         <Icon
           as={ChevronRightIcon}
@@ -107,7 +99,8 @@ function PhotoSlider() {
           h={8}
           color="white"
           cursor="pointer"
-          onClick={goToNext}
+          onClick={() => changeSlide("next")}
+          aria-label="Next image"
         />
       </Flex>
       <Box
@@ -117,14 +110,18 @@ function PhotoSlider() {
         color="white"
         bg="blackAlpha.600"
         p={2}
+        onClick={() => handleNavigateToDetailPage(currentMovie.id)}
+        cursor="pointer"
       >
-        <Text fontSize="lg">{movies[currentImageIndex]?.title}</Text>
+        <Text fontSize="lg" noOfLines={1}>
+          {currentMovie.title}
+        </Text>
         <Heading fontSize="md" color="yellow">
-          {round(movies[currentImageIndex]?.vote_average)}
+          {Math.round(currentMovie.vote_average * 10) / 10}
         </Heading>
       </Box>
     </Box>
   );
-}
+};
 
 export default PhotoSlider;
