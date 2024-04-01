@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Box, Image, HStack, Heading, Text } from "@chakra-ui/react";
+import { Box, Image, HStack, Heading, Text, VStack } from "@chakra-ui/react";
 import useFetch from "../hooks/useFetch";
 import { apiEndpoints, defaultOptions } from "../config/api.config";
 import { Movie } from "../models/movie.types";
@@ -72,12 +72,19 @@ const ImageScroller = ({
       >
         <HStack spacing="20px">
           {movies?.map((movie, index) => (
-            <Image
-              key={index}
-              src={process.env.REACT_APP_API_ENDPOINT_W500 + movie.poster_path}
-              boxSize="150px"
-              objectFit="cover"
-            />
+            <VStack key={index} spacing="5px" align="center">
+              <Image
+                src={`${process.env.REACT_APP_API_ENDPOINT_W500}${movie.poster_path}`}
+                objectFit="cover"
+                h="100%"
+                w="100%"
+                borderRadius="5px"
+                alt={`Poster of the movie/tvshow titled ${movie.title}`}
+              />
+              <Text fontSize="sm" noOfLines={1} w="120px" textAlign="center">
+                {movie.name || movie.title}
+              </Text>
+            </VStack>
           ))}
         </HStack>
       </Box>

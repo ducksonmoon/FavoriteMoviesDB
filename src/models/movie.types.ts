@@ -4,4 +4,5 @@ export interface Movie {
   title: string;
   backdrop_path: string;
   vote_average: number;
+  name: string;
 }
