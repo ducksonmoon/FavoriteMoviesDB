@@ -1,26 +1,29 @@
 import React from "react";
 import "./App.css";
 import Toolbar from "./components/Toolbar";
-import { ChakraUIProvider } from "./chakra-ui/chakra-ui.provider";
+import SplashScreen from "./components/SplashScreen";
 import { LayoutWrapper } from "./UI/LayoutWrapper";
-import { BrowserRouter as Router, useRoutes } from "react-router-dom";
-import routesConfig from "./config/routesConfig";
-
-const AppRoutes = () => {
-  const routes = useRoutes(routesConfig);
-  return routes;
-};
+import { BrowserRouter as Router } from "react-router-dom";
+import GlobalProvider from "./contexts/Global.provider";
+import useAppInitialization from "./hooks/useAppInitialization";
+import AppRoutes from "./features/Routes/AppRoutes";
 
 function App() {
+  const isAppReady = useAppInitialization();
+
   return (
-    <ChakraUIProvider>
-      <LayoutWrapper>
-        <Router>
-          <AppRoutes />
-          <Toolbar />
-        </Router>
-      </LayoutWrapper>
-    </ChakraUIProvider>
+    <Router>
+      <GlobalProvider>
+        {!isAppReady ? (
+          <SplashScreen />
+        ) : (
+          <LayoutWrapper>
+            <AppRoutes />
+            <Toolbar />
+          </LayoutWrapper>
+        )}
+      </GlobalProvider>
+    </Router>
   );
 }
 

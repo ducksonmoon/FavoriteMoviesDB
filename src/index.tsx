@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ColorModeScript } from "@chakra-ui/react";
-import { chakraCustomTheme as theme } from "./chakra-ui/chakra-ui.custom-theme";
+import { chakraCustomTheme as theme } from "./UI/chakra-ui/chakra-ui.custom-theme";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
