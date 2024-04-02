@@ -12,12 +12,12 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext"; // Adjust the import path as necessary
 
 const UserSettings = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useContext(AuthContext);
+  const { logout } = useAuth();
   const toast = useToast();
 
   const [email, setEmail] = useState("");
@@ -55,11 +55,6 @@ const UserSettings = () => {
       isClosable: true,
     });
   };
-
-  // if (!isAuthenticated) {
-  //   navigate("/login");
-  //   return null;
-  // }
 
   return (
     <Box p={5}>

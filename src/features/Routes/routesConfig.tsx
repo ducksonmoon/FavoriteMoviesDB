@@ -5,6 +5,7 @@ import Movie from "../../pages/details/MovieDetails";
 import SearchPage from "../../pages/search/SearchPage";
 import UserSettings from "../../pages/settings/Settings";
 import LoginPage from "../../pages/settings/LoginPage";
+import SignUpPage from "../../pages/settings/SignnUpPage";
 
 const routesConfig: RouteObject[] = [
   {
@@ -24,6 +25,7 @@ const routesConfig: RouteObject[] = [
   },
   { path: "/search", element: <SearchPage />, id: "Search" },
   { path: "/login", element: <LoginPage />, id: "Login" },
+  { path: "/register", element: <SignUpPage />, id: "register" },
 ];
 
 export default routesConfig;

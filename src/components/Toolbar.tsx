@@ -21,7 +21,7 @@ function Toolbar() {
   const borderColor = useColorModeValue("gray.200", "gray.700");
   const hoverBgColor = useColorModeValue("gray.200", "gray.700");
   const location = useLocation();
-  const hideOnRoutes = ["/login"];
+  const hideOnRoutes = ["/login", "/register"];
 
   if (hideOnRoutes.includes(location.pathname)) {
     return null;
