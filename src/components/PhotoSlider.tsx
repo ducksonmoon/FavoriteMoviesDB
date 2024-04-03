@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Image, Flex, Icon, Text, Heading } from "@chakra-ui/react";
 import useFetch from "../hooks/useFetch";
-import { apiEndpoints, defaultOptions } from "../services/config/api.config";
-import { API_ENDPOINTS } from "../services/config/endpoints";
+import { apiEndpoints, defaultOptions } from "../config/api.config";
+import { API_ENDPOINTS } from "../config/endpoints";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 const slideIntervalTime = 5000;

@@ -1,7 +1,7 @@
 import React from "react";
 import PhotoSlider from "../components/PhotoSlider";
 import ImageScroller from "../components/ImageScroller";
-import { API_ENDPOINTS } from "../services/config/endpoints";
+import { API_ENDPOINTS } from "../config/endpoints";
 
 function Home() {
   const scrollers = [

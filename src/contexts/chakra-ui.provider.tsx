@@ -1,6 +1,6 @@
 import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
-import { chakraCustomTheme } from "../UI/chakra-ui/chakra-ui.custom-theme";
+import { chakraCustomTheme } from "../config/chakra-ui.custom-theme";
 
 export const ChakraUIProvider = ({
   children,
