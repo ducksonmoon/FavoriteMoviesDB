@@ -28,14 +28,17 @@ import {
   AtSignIcon,
   InfoOutlineIcon,
   ArrowBackIcon,
+  EditIcon,
 } from "@chakra-ui/icons";
 import { Movietype } from "../models/movie.types";
 import { fetchMovieDetails } from "../services/movieService";
+import ReviewForm from "../components/ReviewForm";
 
 const ChakraLink = chakra(Link);
 
 const MovieDetail: React.FC = () => {
   const navigate = useNavigate();
+  const [showReviewForm, setShowReviewForm] = useState(false);
 
   const { movieId } = useParams<{ movieId: string }>();
   const [movie, setMovie] = useState<Movietype | null>(null);
@@ -44,6 +47,8 @@ const MovieDetail: React.FC = () => {
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const headingColor = useColorModeValue("teal.600", "teal.300");
   const textColor = useColorModeValue("gray.600", "gray.400");
+
+  const toggleReviewForm = () => setShowReviewForm(!showReviewForm);
 
   useEffect(() => {
     const getMovieDetails = async () => {
@@ -82,12 +87,36 @@ const MovieDetail: React.FC = () => {
   return (
     <Container maxW="container.lg" py={2}>
       <VStack spacing={2}>
-        <Flex w="full" justifyContent="flex-start">
+        <Flex w="full" justifyContent="space-between" alignItems="center">
           <IconButton
             aria-label="Go back"
             icon={<ArrowBackIcon />}
             onClick={() => navigate(-1)}
           />
+          <Tooltip
+            hasArrow
+            label="Click to write a review for this movie"
+            placement="top"
+          >
+            <Button
+              leftIcon={<EditIcon />}
+              colorScheme="gray"
+              variant="solid"
+              size="md"
+              boxShadow="md"
+              _hover={{
+                bg: "pink.600",
+                transform: "scale(1.05)",
+              }}
+              _active={{
+                bg: "pink.700",
+                transform: "scale(1)",
+              }}
+              onClick={toggleReviewForm}
+            >
+              Write Review
+            </Button>
+          </Tooltip>
         </Flex>
         <Box bg={bgColor} p={6} rounded="lg" shadow="xl">
           <VStack spacing={5}>
@@ -107,6 +136,13 @@ const MovieDetail: React.FC = () => {
               <Text fontSize="lg" fontStyle="italic">
                 "{movie.tagline}"
               </Text>
+            )}
+
+            {showReviewForm && (
+              <ReviewForm
+                movieId={movieId as string}
+                onClose={toggleReviewForm}
+              />
             )}
 
             <HStack wrap="wrap" justify="center" spacing={2}>
