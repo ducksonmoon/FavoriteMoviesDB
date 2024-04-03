@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   Box,
   VStack,
@@ -10,22 +10,27 @@ import {
   Button,
   useToast,
   useColorMode,
+  IconButton,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext"; // Adjust the import path as necessary
+import { getAuth, onAuthStateChanged } from "firebase/auth"; // Import getAuth
+import { useAuth } from "../contexts/AuthContext";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 const UserSettings = () => {
+  const auth = getAuth();
+  const currentUser = auth.currentUser;
+
   const { colorMode, toggleColorMode } = useColorMode();
   const navigate = useNavigate();
   const { logout } = useAuth();
   const toast = useToast();
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(currentUser?.email || "");
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
 
   const handleSaveSettings = async () => {
     try {
-      // Replace this with actual API call to save settings
       console.log("Saving settings...");
       toast({
         title: "Settings saved.",
@@ -45,6 +50,14 @@ const UserSettings = () => {
     }
   };
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setEmail(user?.email || "");
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   const handleLogout = () => {
     logout();
     navigate("/login");
@@ -63,24 +76,16 @@ const UserSettings = () => {
           User Settings
         </Heading>
 
-        <FormControl display="flex" alignItems="center">
-          <FormLabel htmlFor="dark-mode" mb="0">
-            Dark Mode
-          </FormLabel>
-          <Switch
-            id="dark-mode"
-            isChecked={colorMode === "dark"}
-            onChange={toggleColorMode}
-          />
-        </FormControl>
+        <IconButton
+          aria-label="Toggle Theme"
+          icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+          onClick={toggleColorMode}
+          alignSelf="flex-end"
+        />
 
         <FormControl>
           <FormLabel>Email</FormLabel>
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          <Input type="email" value={email} isReadOnly={true} />{" "}
         </FormControl>
 
         <FormControl display="flex" alignItems="center">
@@ -88,6 +93,7 @@ const UserSettings = () => {
             Enable Notifications
           </FormLabel>
           <Switch
+            disabled={true}
             id="notifications"
             isChecked={notificationsEnabled}
             onChange={() => setNotificationsEnabled(!notificationsEnabled)}
@@ -97,6 +103,7 @@ const UserSettings = () => {
         <Button colorScheme="teal" onClick={handleSaveSettings}>
           Save Settings
         </Button>
+
         <Button colorScheme="red" onClick={handleLogout}>
           Logout
         </Button>
