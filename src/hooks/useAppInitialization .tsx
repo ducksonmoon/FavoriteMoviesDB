@@ -7,12 +7,11 @@ const useAppInitialization = () => {
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setIsAppReady(true); // Simply set the app as ready once we receive the auth state.
+      setIsAppReady(true);
     });
 
-    // Clean up the subscription on unmount
     return () => unsubscribe();
-  }, []); // No dependencies are needed here since we're not using setIsAuthenticated from the context.
+  }, []);
 
   return isAppReady;
 };
