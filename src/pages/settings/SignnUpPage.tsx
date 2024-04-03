@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom"; // If using React Router for navigation
-import SignUpForm from "../../features/Auth/SignUpForm"; // Ensure you have this component created
+import SignUpForm from "../../components/Auth/SignUpForm"; // Ensure you have this component created
 
 const SignUpPage = () => {
   const { colorMode, toggleColorMode } = useColorMode();

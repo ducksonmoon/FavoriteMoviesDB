@@ -6,7 +6,7 @@ import { LayoutWrapper } from "./UI/LayoutWrapper";
 import { BrowserRouter as Router } from "react-router-dom";
 import GlobalProvider from "./contexts/Global.provider";
 import useAppInitialization from "./hooks/useAppInitialization";
-import AppRoutes from "./features/Routes/AppRoutes";
+import AppRoutes from "./components/Routes/AppRoutes";
 
 function App() {
   const isAppReady = useAppInitialization();

@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom"; // Import useNavigate hook from react-router-dom
-import LoginForm from "../../features/Auth/LoginForm";
+import LoginForm from "../../components/Auth/LoginForm";
 
 const LoginPage = () => {
   const { colorMode, toggleColorMode } = useColorMode();
