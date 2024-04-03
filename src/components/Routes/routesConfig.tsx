@@ -1,11 +1,11 @@
 import React from "react";
 import { RouteObject } from "react-router-dom";
-import Home from "../../pages/home/Home";
-import Movie from "../../pages/details/MovieDetails";
-import SearchPage from "../../pages/search/SearchPage";
-import UserSettings from "../../pages/settings/Settings";
-import LoginPage from "../../pages/settings/LoginPage";
-import SignUpPage from "../../pages/settings/SignnUpPage";
+import Home from "../../pages/HomePage";
+import Movie from "../../pages/MovieDetailsPage";
+import SearchPage from "../../pages/SearchPage";
+import UserSettings from "../../pages/SettingsPage";
+import LoginPage from "../../pages/LoginPage";
+import SignUpPage from "../../pages/SignnUpPage";
 import ProtectedLayout from "./ProtectedRoute";
 
 const routesConfig: RouteObject[] = [

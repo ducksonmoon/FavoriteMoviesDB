@@ -1,5 +1,5 @@
-import { apiEndpoints, defaultOptions } from "../../config/api.config";
-import { Movietype } from "../../models/movie.types";
+import { apiEndpoints, defaultOptions } from "./config/api.config";
+import { Movietype } from "../models/movie.types";
 
 export const fetchMovieDetails = async (
   movieId: number

@@ -11,10 +11,10 @@ import {
   SimpleGrid,
   Image,
 } from "@chakra-ui/react";
-import { useDebounce } from "../../hooks/useDebounce";
-import { fetchMoviesBySearch } from "../details/movieService";
-import { Movietype } from "../../models/movie.types";
-import { usePreserveState } from "../../hooks/usePreserveState";
+import { useDebounce } from "../hooks/useDebounce";
+import { fetchMoviesBySearch } from "../services/movieService";
+import { Movietype } from "../models/movie.types";
+import { usePreserveState } from "../hooks/usePreserveState";
 
 const SearchPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = usePreserveState("", "searchTerm");

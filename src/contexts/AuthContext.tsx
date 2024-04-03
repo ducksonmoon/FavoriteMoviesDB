@@ -11,7 +11,7 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { auth } from "../config/firebase.config";
+import { auth } from "../services/config/firebase.config";
 
 interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Box, Image, HStack, Heading, Text, VStack } from "@chakra-ui/react";
 import useFetch from "../hooks/useFetch";
-import { apiEndpoints, defaultOptions } from "../config/api.config";
+import { apiEndpoints, defaultOptions } from "../services/config/api.config";
 import { Movietype } from "../models/movie.types";
 import { useNavigate } from "react-router-dom";
 

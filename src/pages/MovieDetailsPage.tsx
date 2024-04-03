@@ -29,8 +29,8 @@ import {
   InfoOutlineIcon,
   ArrowBackIcon,
 } from "@chakra-ui/icons";
-import { Movietype } from "../../models/movie.types";
-import { fetchMovieDetails } from "./movieService";
+import { Movietype } from "../models/movie.types";
+import { fetchMovieDetails } from "../services/movieService";
 
 const ChakraLink = chakra(Link);
 

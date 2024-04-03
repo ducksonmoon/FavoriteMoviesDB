@@ -12,7 +12,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext"; // Adjust the import path as necessary
+import { useAuth } from "../contexts/AuthContext"; // Adjust the import path as necessary
 
 const UserSettings = () => {
   const { colorMode, toggleColorMode } = useColorMode();
