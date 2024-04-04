@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -13,14 +13,19 @@ import {
   VStack,
   Flex,
 } from "@chakra-ui/react";
+import { v4 as uuidv4 } from "uuid";
 import RatingComponent from "./RatingComponent";
 import LikeButton from "./LikeButton";
 import { FormField } from "./FormFieldComponent";
+import { CommentType, addComment } from "../services/commentsService";
+import { useAuth } from "../contexts/AuthContext";
 
-const useReviewForm = (onClose: any) => {
+const useReviewForm = (onClose: any, comment: CommentType) => {
   const toast = useToast();
 
-  const handleSubmit = () => {
+  const handleSubmit = (text: string) => {
+    comment.comment = text;
+    addComment(comment);
     toast({
       title: "Review submitted.",
       description: "Your review has been added successfully.",
@@ -35,8 +40,24 @@ const useReviewForm = (onClose: any) => {
 };
 
 const ReviewForm = ({ movieId, onClose }: any) => {
-  const { handleSubmit } = useReviewForm(onClose);
+  const { currentUser } = useAuth();
+  const { handleSubmit } = useReviewForm(onClose, {
+    id: uuidv4(),
+    comment: "",
+    movieId: movieId,
+    userId: currentUser?.uid,
+    userName: currentUser?.displayName,
+    datePosted: new Date(),
+  });
+  const [reviewText, setReviewText] = useState("");
+  const [dateWatched, setDateWatched] = useState("");
+
   const formBackground = useColorModeValue("gray.100", "gray.700");
+
+  const onSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    handleSubmit(reviewText);
+  };
 
   return (
     <Modal isOpen={true} onClose={onClose} isCentered size="xl">
@@ -46,13 +67,23 @@ const ReviewForm = ({ movieId, onClose }: any) => {
         <ModalCloseButton />
         <ModalBody pb={6}>
           <VStack spacing={4}>
-            <FormField label="Date Watched" type="date" />
+            <FormField
+              label="Date Watched"
+              type="date"
+              value={dateWatched}
+              onChange={(e: any) => setDateWatched(e.target.value)}
+            />
             <RatingAndLike movieId={movieId} />
-            <FormField label="Review" type="textarea" />
+            <FormField
+              label="Review"
+              type="textarea"
+              value={reviewText}
+              onChange={(e: any) => setReviewText(e.target.value)}
+            />
           </VStack>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+          <Button colorScheme="blue" mr={3} onClick={onSubmit}>
             Publish
           </Button>
           <Button variant="ghost" onClick={onClose}>
@@ -67,7 +98,7 @@ const ReviewForm = ({ movieId, onClose }: any) => {
 const RatingAndLike = ({ movieId }: { movieId: string }) => (
   <Flex align="center" justify="center" mt={4}>
     <RatingComponent userId="userId" movieId={movieId} />
-    <LikeButton userId="someUserId" movieId={movieId} initialLiked={false} />
+    <LikeButton userId="someUserId" movieId={movieId} />
   </Flex>
 );
 

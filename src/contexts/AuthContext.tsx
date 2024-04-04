@@ -10,14 +10,17 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  User,
 } from "firebase/auth";
 import { auth } from "../config/firebase.config";
+import { customSignup } from "../services/authFirebaseSetup";
 
 interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  signup: (email: string, password: string) => Promise<void>;
+  signup: (email: string, password: string, username: string) => Promise<void>;
   isAuthenticated: boolean;
+  currentUser: User | null;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -26,9 +29,11 @@ export const useAuth = () => useContext(AuthContext)!;
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
       setIsAuthenticated(!!user);
     });
 
@@ -43,8 +48,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await signOut(auth);
   };
 
-  const signup = async (email: string, password: string) => {
-    await createUserWithEmailAndPassword(auth, email, password);
+  const signup = async (email: string, password: string, username: string) => {
+    await customSignup(email, password, username);
   };
 
   const value = {
@@ -52,6 +57,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     logout,
     signup,
     isAuthenticated,
+    currentUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

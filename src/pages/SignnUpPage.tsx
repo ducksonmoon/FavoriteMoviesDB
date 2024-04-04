@@ -11,13 +11,13 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-import { useNavigate } from "react-router-dom"; // If using React Router for navigation
-import SignUpForm from "../components/Auth/SignUpForm"; // Ensure you have this component created
+import { useNavigate } from "react-router-dom";
+import SignUpForm from "../components/Auth/SignUpForm";
 
 const SignUpPage = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const formBackground = useColorModeValue("gray.100", "gray.700");
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   return (
     <Container centerContent>

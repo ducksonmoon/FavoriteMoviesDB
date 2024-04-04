@@ -33,13 +33,15 @@ import {
 import { Movietype } from "../models/movie.types";
 import { fetchMovieDetails } from "../services/movieService";
 import ReviewForm from "../components/ReviewForm";
+import Comment from "../components/CommentComponent";
+import { CommentType, getCommentsForMovie } from "../services/commentsService";
 
 const ChakraLink = chakra(Link);
 
 const MovieDetail: React.FC = () => {
   const navigate = useNavigate();
   const [showReviewForm, setShowReviewForm] = useState(false);
-
+  const [comments, setComments] = useState<CommentType[]>([]);
   const { movieId } = useParams<{ movieId: string }>();
   const [movie, setMovie] = useState<Movietype | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -55,6 +57,10 @@ const MovieDetail: React.FC = () => {
       setIsLoading(true);
       try {
         const data = await fetchMovieDetails(Number(movieId));
+        const commentsData = await getCommentsForMovie(movieId as string);
+        setMovie(data);
+        setComments(commentsData);
+
         setMovie(data);
       } catch (error) {
         setError("Failed to load movie details.");
@@ -105,11 +111,11 @@ const MovieDetail: React.FC = () => {
               size="md"
               boxShadow="md"
               _hover={{
-                bg: "pink.600",
+                bg: "blue.500",
                 transform: "scale(1.05)",
               }}
               _active={{
-                bg: "pink.700",
+                bg: "blue.600",
                 transform: "scale(1)",
               }}
               onClick={toggleReviewForm}
@@ -216,6 +222,21 @@ const MovieDetail: React.FC = () => {
           </VStack>
         </Box>
       </VStack>
+      <>
+        <Divider my={5} />
+        <Heading size="lg" mb={4}>
+          Comments
+        </Heading>
+        <VStack spacing={4} align="stretch">
+          {comments.length > 0 ? (
+            comments.map((comment) => (
+              <Comment key={comment.id} comment={comment} />
+            ))
+          ) : (
+            <Text>No comments yet.</Text>
+          )}
+        </VStack>
+      </>
     </Container>
   );
 };

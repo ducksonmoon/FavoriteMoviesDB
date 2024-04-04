@@ -2,7 +2,11 @@ import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { getErrorMessage } from "../utils/authUtils";
 
-type AuthAction = (email: string, password: string) => Promise<any>;
+type AuthAction = (
+  email: string,
+  password: string,
+  username: string
+) => Promise<void>;
 
 const useAuthFormHandler = (authAction: AuthAction) => {
   const toast = useToast();
@@ -11,10 +15,12 @@ const useAuthFormHandler = (authAction: AuthAction) => {
   const handleSubmit = async (
     email: string,
     password: string,
+    username: string,
     successRedirect: string = "/"
   ) => {
     try {
-      await authAction(email, password);
+      await authAction(email, password, username);
+
       toast({
         title: "Success",
         description: "Your action has been successfully completed.",

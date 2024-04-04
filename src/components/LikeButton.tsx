@@ -1,23 +1,31 @@
 import React, { useState } from "react";
-import { toggleLike } from "../services/likeService";
+import { getLikesForMovie, toggleLike } from "../services/likeService";
 import { IconButton, useColorModeValue, Spinner } from "@chakra-ui/react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 interface LikeButtonProps {
   userId: string;
   movieId: string;
-  initialLiked: boolean;
 }
 
-const LikeButton: React.FC<LikeButtonProps> = ({
-  userId,
-  movieId,
-  initialLiked,
-}) => {
-  const [liked, setLiked] = useState<boolean>(initialLiked);
+const LikeButton: React.FC<LikeButtonProps> = ({ userId, movieId }) => {
+  const [liked, setLiked] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const heartColor = useColorModeValue("red.500", "red.200");
+
+  React.useEffect(() => {
+    const fetchRating = async () => {
+      const likes = await getLikesForMovie(movieId);
+      const userLikes = likes.find(
+        (r) => r.userId === userId && r.movieId === movieId
+      );
+      if (userLikes) {
+        setLiked(true);
+      }
+    };
+    fetchRating();
+  }, [userId, movieId]);
 
   const handleClick = async () => {
     setLoading(true);

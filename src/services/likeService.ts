@@ -1,5 +1,18 @@
-import { doc, setDoc, deleteDoc } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  deleteDoc,
+  query,
+  collection,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import db from "../config/firebase.config";
+
+interface Like {
+  movieId: string;
+  userId: string;
+}
 
 export const toggleLike = async (
   userId: string,
@@ -12,4 +25,10 @@ export const toggleLike = async (
   } else {
     await deleteDoc(likeRef);
   }
+};
+
+export const getLikesForMovie = async (movieId: string): Promise<Like[]> => {
+  const q = query(collection(db, "likes"), where("movieId", "==", movieId));
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map((doc) => doc.data() as Like);
 };

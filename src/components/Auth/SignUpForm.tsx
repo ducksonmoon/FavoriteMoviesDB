@@ -4,6 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import useAuthFormHandler from "../../hooks/useAuthFormHandler";
 
 const SignUpForm = () => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signup } = useAuth();
@@ -11,12 +12,20 @@ const SignUpForm = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleAuthSubmit(email, password, "/");
+    handleAuthSubmit(email, password, username, "/");
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <Stack spacing={4}>
+        <FormControl id="username" isRequired>
+          <FormLabel>Username</FormLabel>
+          <Input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </FormControl>
         <FormControl id="email" isRequired>
           <FormLabel>Email</FormLabel>
           <Input
