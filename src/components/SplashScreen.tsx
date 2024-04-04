@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, CircularProgress, Text, VStack, Image } from "@chakra-ui/react";
+import { Box, CircularProgress, Text, VStack } from "@chakra-ui/react";
 
 const SplashScreen = () => (
   <Box

@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Avatar,
-  Box,
-  Text,
-  VStack,
-  HStack,
-  IconButton,
-} from "@chakra-ui/react";
-import { ArrowUpIcon, ArrowDownIcon } from "@chakra-ui/icons";
+import { Avatar, Box, Text, VStack, HStack } from "@chakra-ui/react";
 import { formatDistanceToNow } from "date-fns";
 
 const Comment = ({ comment }: any) => {

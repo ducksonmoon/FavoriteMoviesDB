@@ -46,7 +46,7 @@ const RatingComponent: React.FC<RatingComponentProps> = ({
             fontSize="xl"
             color={index <= (hover || rating) ? "yellow.500" : "gray.400"}
             _hover={{ color: "yellow.600" }}
-            onClick={() => setRating(index)}
+            onClick={() => handleRatingChange(index)}
             onMouseEnter={() => setHover(index)}
             onMouseLeave={() => setHover(rating)}
             role="presentation"

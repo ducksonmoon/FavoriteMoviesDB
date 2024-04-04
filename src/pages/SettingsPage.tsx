@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   VStack,
@@ -13,21 +13,27 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { getAuth, onAuthStateChanged } from "firebase/auth"; // Import getAuth
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useAuth } from "../contexts/AuthContext";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 const UserSettings = () => {
-  const auth = getAuth();
-  const currentUser = auth.currentUser;
-
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
-  const { logout } = useAuth();
   const toast = useToast();
-
+  const { colorMode, toggleColorMode } = useColorMode();
   const [email, setEmail] = useState(currentUser?.email || "");
+  const [username, setUsername] = useState(currentUser?.displayName || "");
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(getAuth(), (user) => {
+      setEmail(user?.email || "");
+      setUsername(user?.displayName || "");
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const handleSaveSettings = async () => {
     try {
@@ -49,14 +55,6 @@ const UserSettings = () => {
       });
     }
   };
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setEmail(user?.email || "");
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   const handleLogout = () => {
     logout();
@@ -83,6 +81,10 @@ const UserSettings = () => {
           alignSelf="flex-end"
         />
 
+        <FormControl>
+          <FormLabel>Username</FormLabel>
+          <Input type="name" value={username} isReadOnly={true} />{" "}
+        </FormControl>
         <FormControl>
           <FormLabel>Email</FormLabel>
           <Input type="email" value={email} isReadOnly={true} />{" "}
