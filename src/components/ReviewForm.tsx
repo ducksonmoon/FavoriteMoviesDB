@@ -41,21 +41,33 @@ const useReviewForm = (onClose: any, comment: CommentType) => {
 
 const ReviewForm = ({ movieId, onClose }: any) => {
   const { currentUser } = useAuth();
-  const { handleSubmit } = useReviewForm(onClose, {
-    id: uuidv4(),
-    comment: "",
-    movieId: movieId,
-    userId: currentUser?.uid,
-    userName: currentUser?.displayName,
-    datePosted: new Date(),
-  });
+  const toast = useToast();
   const [reviewText, setReviewText] = useState("");
   const [dateWatched, setDateWatched] = useState("");
-
   const formBackground = useColorModeValue("gray.100", "gray.700");
+  const { handleSubmit } = useReviewForm(onClose, {
+    id: uuidv4(),
+    comment: reviewText,
+    movieId: movieId,
+    userId: currentUser?.uid,
+    userName: currentUser?.displayName || "Anonymous",
+    datePosted: new Date(),
+  });
 
   const onSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+
+    if (!reviewText.trim()) {
+      toast({
+        title: "Cannot publish review",
+        description: "Please write a review before publishing.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+
     handleSubmit(reviewText);
   };
 
