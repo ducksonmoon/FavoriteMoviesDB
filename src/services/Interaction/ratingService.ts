@@ -6,7 +6,7 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
-import db from "../config/firebase.config";
+import db from "../../config/firebase.config";
 
 interface Rating {
   userId: string;

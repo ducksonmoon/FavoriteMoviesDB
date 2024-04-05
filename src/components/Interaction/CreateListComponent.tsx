@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createList } from "../services/listService";
+import { createList } from "../../services/Interaction/listService";
 import { Button, Input, VStack, useToast } from "@chakra-ui/react";
 
 interface CreateListComponentProps {

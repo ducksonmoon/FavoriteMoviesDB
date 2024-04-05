@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   addOrUpdateRating,
   getRatingsForMovie,
-} from "../services/ratingService";
+} from "../../services/Interaction/ratingService";
 import { Box, Flex, Icon } from "@chakra-ui/react";
 import { FaStar } from "react-icons/fa";
 

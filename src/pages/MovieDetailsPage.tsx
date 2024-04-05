@@ -31,10 +31,13 @@ import {
   EditIcon,
 } from "@chakra-ui/icons";
 import { Movietype } from "../models/movie.types";
-import { fetchMovieDetails } from "../services/movieService";
-import ReviewForm from "../components/ReviewForm";
-import Comment from "../components/CommentComponent";
-import { CommentType, getCommentsForMovie } from "../services/commentsService";
+import { fetchMovieDetails } from "../services/Interaction/movieService";
+import ReviewForm from "../components/Interaction/ReviewForm";
+import Comment from "../components/Interaction/CommentComponent";
+import {
+  CommentType,
+  getCommentsForMovie,
+} from "../services/Interaction/commentsService";
 
 const ChakraLink = chakra(Link);
 

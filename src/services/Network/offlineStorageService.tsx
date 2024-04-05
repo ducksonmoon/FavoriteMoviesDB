@@ -1,5 +1,5 @@
 import localforage from "localforage";
-import { CommentType } from "../commentsService";
+import { CommentType } from "../Interaction/commentsService";
 
 const store = localforage.createInstance({
   name: "app",

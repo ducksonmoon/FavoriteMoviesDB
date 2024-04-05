@@ -6,7 +6,7 @@ import { LayoutWrapper } from "./contexts/LayoutWrapper";
 import { BrowserRouter as Router } from "react-router-dom";
 import GlobalProvider from "./contexts/Global.provider";
 import useAppInitialization from "./hooks/useAppInitialization";
-import AppRoutes from "./components/Routes/AppRoutes";
+import AppRoutes from "./Routes/AppRoutes";
 import { useAutoSync } from "./hooks/Network/useAutoSync";
 
 function App() {

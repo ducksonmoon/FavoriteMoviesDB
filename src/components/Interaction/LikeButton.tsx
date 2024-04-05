@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { getLikesForMovie, toggleLike } from "../services/likeService";
+import {
+  getLikesForMovie,
+  toggleLike,
+} from "../../services/Interaction/likeService";
 import { IconButton, useColorModeValue, Spinner } from "@chakra-ui/react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 

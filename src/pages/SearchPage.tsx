@@ -12,7 +12,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { useDebounce } from "../hooks/useDebounce";
-import { fetchMoviesBySearch } from "../services/movieService";
+import { fetchMoviesBySearch } from "../services/Interaction/movieService";
 import { Movietype } from "../models/movie.types";
 import { usePreserveState } from "../hooks/usePreserveState";
 

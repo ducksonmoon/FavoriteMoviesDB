@@ -16,11 +16,14 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import RatingComponent from "./RatingComponent";
 import LikeButton from "./LikeButton";
-import { FormField } from "./FormFieldComponent";
-import { CommentType, addComment } from "../services/commentsService";
-import { useAuth } from "../contexts/AuthContext";
-import { useNetworkStatus } from "../hooks/Network/useNetworkStatus";
-import { saveReviewOffline } from "../services/Network/offlineStorageService";
+import { FormField } from "../FormFieldComponent";
+import {
+  CommentType,
+  addComment,
+} from "../../services/Interaction/commentsService";
+import { useAuth } from "../../contexts/AuthContext";
+import { useNetworkStatus } from "../../hooks/Network/useNetworkStatus";
+import { saveReviewOffline } from "../../services/Network/offlineStorageService";
 
 const useReviewForm = (onClose: any, comment: CommentType) => {
   const toast = useToast();

@@ -1,4 +1,4 @@
-import { CommentType, addComment } from "../commentsService";
+import { CommentType, addComment } from "../Interaction/commentsService";
 import {
   getOfflineReviews,
   removeOfflineReview,
