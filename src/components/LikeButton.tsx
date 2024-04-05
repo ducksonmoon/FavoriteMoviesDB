@@ -18,7 +18,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({ userId, movieId }) => {
     const fetchRating = async () => {
       const likes = await getLikesForMovie(movieId);
       const userLikes = likes.find(
-        (r) => r.userId === userId && r.movieId === movieId
+        (r) => r?.userId === userId && r.movieId === movieId
       );
       if (userLikes) {
         setLiked(true);

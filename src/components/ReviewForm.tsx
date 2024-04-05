@@ -19,21 +19,38 @@ import LikeButton from "./LikeButton";
 import { FormField } from "./FormFieldComponent";
 import { CommentType, addComment } from "../services/commentsService";
 import { useAuth } from "../contexts/AuthContext";
+import { useNetworkStatus } from "../hooks/Network/useNetworkStatus";
+import { saveReviewOffline } from "../services/Network/offlineStorageService";
 
 const useReviewForm = (onClose: any, comment: CommentType) => {
   const toast = useToast();
+  const isOnline = useNetworkStatus();
 
-  const handleSubmit = (text: string) => {
+  const handleSubmit = async (text: string) => {
     comment.comment = text;
-    addComment(comment);
-    toast({
-      title: "Review submitted.",
-      description: "Your review has been added successfully.",
-      status: "success",
-      duration: 9000,
-      isClosable: true,
-    });
-    onClose();
+
+    if (!isOnline) {
+      await saveReviewOffline(comment);
+      toast({
+        title: "You're offline",
+        description:
+          "Your review has been saved and will be submitted once you're back online.",
+        status: "info",
+        duration: 5000,
+        isClosable: true,
+      });
+      onClose();
+    } else {
+      addComment(comment);
+      toast({
+        title: "Review submitted.",
+        description: "Your review has been added successfully.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+      onClose();
+    }
   };
 
   return { handleSubmit };
@@ -85,7 +102,7 @@ const ReviewForm = ({ movieId, onClose }: any) => {
               value={dateWatched}
               onChange={(e: any) => setDateWatched(e.target.value)}
             />
-            <RatingAndLike movieId={movieId} />
+            <RatingAndLike movieId={movieId} currentUserId={currentUser?.uid} />
             <FormField
               label="Review"
               type="textarea"
@@ -107,10 +124,16 @@ const ReviewForm = ({ movieId, onClose }: any) => {
   );
 };
 
-const RatingAndLike = ({ movieId }: { movieId: string }) => (
+const RatingAndLike = ({
+  movieId,
+  currentUserId,
+}: {
+  movieId: string;
+  currentUserId: string | undefined;
+}) => (
   <Flex align="center" justify="center" mt={4}>
-    <RatingComponent userId="userId" movieId={movieId} />
-    <LikeButton userId="someUserId" movieId={movieId} />
+    <RatingComponent userId={currentUserId || "Anms"} movieId={movieId} />
+    <LikeButton userId={currentUserId || "Anms"} movieId={movieId} />
   </Flex>
 );
 
