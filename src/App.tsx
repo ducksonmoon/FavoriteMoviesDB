@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import Toolbar from "./components/Toolbar";
 import SplashScreen from "./components/SplashScreen";
 import { LayoutWrapper } from "./contexts/LayoutWrapper";
