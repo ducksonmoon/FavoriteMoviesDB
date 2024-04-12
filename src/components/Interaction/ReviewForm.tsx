@@ -16,7 +16,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import RatingComponent from "./RatingComponent";
 import LikeButton from "./LikeButton";
-import { FormField } from "../FormFieldComponent";
+import { FormField } from "../FormField";
 import {
   CommentType,
   addComment,

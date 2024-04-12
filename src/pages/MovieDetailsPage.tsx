@@ -33,7 +33,7 @@ import {
 import { Movietype } from "../models/movie.types";
 import { fetchMovieDetails } from "../services/Interaction/movieService";
 import ReviewForm from "../components/Interaction/ReviewForm";
-import Comment from "../components/Interaction/CommentComponent";
+import Comment from "../components/Interaction/Comment";
 import {
   CommentType,
   getCommentsForMovie,
